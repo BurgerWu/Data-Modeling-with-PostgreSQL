@@ -1,4 +1,4 @@
-# Data Modeling with PostgresSQL
+# Data Modeling with PostgreSQL
 ![image](image/postgreSQL.png)
 
 ## Motivation
