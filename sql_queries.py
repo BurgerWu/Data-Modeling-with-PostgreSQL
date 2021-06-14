@@ -11,11 +11,11 @@ songplay_table_create = ("""
 CREATE TABLE IF NOT EXISTS songplays 
 (songplay_id SERIAL PRIMARY KEY,
  start_time BIGINT NOT NULL,
- user_id text NOT NULL,
+ user_id int NOT NULL,
  level text,
  song_id text,
  artist_id text,
- session_id int NOT NULL,
+ session_id int,
  location text,
  user_agent text)
 """)
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS users
 (user_id int NOT NULL PRIMARY KEY,
 first_name text NOT NULL,
 last_name text NOT NULL,
-gender text NOT NULL,
+gender text,
 level text)
 """)
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS songs
  title text NOT NULL,
  artist_id text NOT NULL,
  year int,
- duration float)
+ duration float CHECK (duration>=0))
 """)
 
 artist_table_create = ("""
@@ -68,7 +68,7 @@ ON CONFLICT DO NOTHING
 user_table_insert = ("""
 INSERT INTO users (user_id, first_name, last_name, gender, level)
 VALUES (%s, %s, %s, %s, %s)
-ON CONFLICT DO NOTHING
+ON CONFLICT (user_id) DO UPDATE SET level = EXCLUDED.level
 """)
 
 song_table_insert = ("""
